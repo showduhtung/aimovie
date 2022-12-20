@@ -2,11 +2,15 @@ import { useState } from 'react';
 import NextApp, { AppProps, AppContext } from 'next/app';
 import { getCookie, setCookie } from 'cookies-next';
 import Head from 'next/head';
-import { MantineProvider, ColorScheme, ColorSchemeProvider } from '@mantine/core';
+import { MantineProvider, ColorScheme, ColorSchemeProvider, AppShell } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
+import { NavigationSidebar } from 'components';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 const DARK = 'dark';
 const LIGHT = 'light';
+
+const queryClient = new QueryClient();
 
 type AppPropsInterface = AppProps & { colorScheme: ColorScheme };
 export default function App({ Component, pageProps, colorScheme: colorTheme }: AppPropsInterface) {
@@ -29,7 +33,19 @@ export default function App({ Component, pageProps, colorScheme: colorTheme }: A
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
         <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
           <NotificationsProvider>
-            <Component {...pageProps} />
+            <QueryClientProvider client={queryClient}>
+              <AppShell
+                padding="md"
+                navbar={<NavigationSidebar />}
+                styles={({ colorScheme, colors }) => ({
+                  main: {
+                    backgroundColor: colorScheme === 'dark' ? colors.dark[8] : colors.gray[0],
+                  },
+                })}
+              >
+                <Component {...pageProps} />
+              </AppShell>
+            </QueryClientProvider>
           </NotificationsProvider>
         </MantineProvider>
       </ColorSchemeProvider>

@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { Fragment, ReactNode } from 'react';
 import {
   IconBrandZoom,
   IconHome2,
@@ -45,15 +45,15 @@ const defaultSections = [
     title: 'Library',
     children: [
       { label: 'Recent', icon: <IconClock />, disabled: true },
-      { label: 'Bookmarked', icon: <IconBookmark /> },
-      { label: 'Top Rated', icon: <IconStar /> },
+      { label: 'Bookmarked', icon: <IconBookmark />, disabled: true },
+      { label: 'Top Rated', icon: <IconStar />, disabled: true },
       { label: 'Downloaded', icon: <IconDownload />, disabled: true },
     ],
   },
   {
     title: '',
     children: [
-      { label: 'Settings', icon: <IconSettings /> },
+      { label: 'Settings', icon: <IconSettings />, disabled: true },
       { label: 'Help', icon: <IconHelp />, disabled: true },
     ],
   },
@@ -65,7 +65,7 @@ const NavBody = () => {
       <Space h="xl" />
       <Space h="xl" />
       {defaultSections.map(({ title, children }, idx) => (
-        <>
+        <Fragment key={title}>
           <NavSection title={title} key={title + String(idx)}>
             {children.map(({ label, icon, disabled }, optionIdx) => (
               <NavLink
@@ -88,7 +88,7 @@ const NavBody = () => {
             ))}
           </NavSection>
           {defaultSections.length - 1 !== idx && <Divider my="sm" />}
-        </>
+        </Fragment>
       ))}
     </>
   );
@@ -128,6 +128,7 @@ const NavFooter = () => (
       })}
       label="Logout"
       icon={<IconLogout />}
+      disabled
     />
   </Box>
 );
