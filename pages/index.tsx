@@ -1,14 +1,14 @@
 import { Space } from '@mantine/core';
 import { CarouselTitle } from 'components';
 import { MovieCarousel } from 'domains/movie';
-import { MovieResponse } from 'types';
+import { MoviesResponse } from 'types';
 
 export default function HomePage({
   popularMovies,
   topRatadMovies,
 }: {
-  popularMovies: MovieResponse;
-  topRatadMovies: MovieResponse;
+  popularMovies: MoviesResponse;
+  topRatadMovies: MoviesResponse;
 }) {
   return (
     <>
@@ -32,7 +32,7 @@ export async function getServerSideProps() {
   const popularRes = await fetch(popularUrl);
   const topRatedRes = await fetch(topRatedUrl);
 
-  const popularResponse: MovieResponse = await popularRes.json();
-  const topRatedResponse: MovieResponse = await topRatedRes.json();
+  const popularResponse: MoviesResponse = await popularRes.json();
+  const topRatedResponse: MoviesResponse = await topRatedRes.json();
   return { props: { popularMovies: popularResponse, topRatadMovies: topRatedResponse } };
 }

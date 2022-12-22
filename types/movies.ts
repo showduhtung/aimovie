@@ -15,7 +15,7 @@ export interface Movie {
   vote_count: number;
 }
 
-export interface MovieResponse {
+export interface MoviesResponse {
   page: number;
   total_pages: number;
   total_results: number;
